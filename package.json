@@ -1,6 +1,6 @@
 {
   "name": "@yarahdev/install",
-  "version": "0.0.53",
+  "version": "0.0.54",
   "description": "CLI tool for installing Yarah MCP servers across different AI clients",
   "type": "module",
   "files": [
@@ -36,5 +36,9 @@
     "@types/node": "^20.19.30",
     "@types/yargs": "^17.0.35",
     "typescript": "^5.9.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Darts7u7/Yarah-oos-install.git"
   }
 }

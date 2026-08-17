@@ -68,7 +68,7 @@ function printPostInstallMessage(clientName: string): void {
   console.log('Learn more:');
   console.log('  📚 Documentation: https://docs.yarah.dev/introduction');
   console.log('  💬 Discord: https://yarah.dev/community');
-  console.log('  ⭐ GitHub: https://github.com/yarah/yarah');
+  console.log('  ⭐ GitHub: https://github.com/Darts7u7/Yarah-oos');
   console.log();
 }
 
