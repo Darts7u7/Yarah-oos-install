@@ -25,7 +25,7 @@ function printHeader(text: string): void {
   console.log();
 }
 
-const INSFORGE_LOGO = `
+const YARAH_LOGO = `
 ██╗███╗   ██╗███████╗███████╗ ██████╗ ██████╗  ██████╗ ███████╗
 ██║████╗  ██║██╔════╝██╔════╝██╔═══██╗██╔══██╗██╔════╝ ██╔════╝
 ██║██╔██╗ ██║███████╗█████╗  ██║   ██║██████╔╝██║  ███╗█████╗
@@ -52,11 +52,11 @@ const clientDisplayNames: Record<string, string> = {
 
 function printPostInstallMessage(clientName: string): void {
   const displayName = clientDisplayNames[clientName] || clientName;
-  console.log(INSFORGE_LOGO);
-  console.log(green(`✓ InsForge MCP is now configured for ${cyan(displayName)}!`));
+  console.log(YARAH_LOGO);
+  console.log(green(`✓ Yarah MCP is now configured for ${cyan(displayName)}!`));
   console.log();
   console.log('Next steps:');
-  console.log('  1. Restart your coding agent to load InsForge');
+  console.log('  1. Restart your coding agent to load Yarah');
   console.log('  2. Try these commands in your agent:');
   console.log();
   console.log(`     ${yellow('"Create a posts table with title, content, and author"')}`);
@@ -66,9 +66,9 @@ function printPostInstallMessage(clientName: string): void {
   console.log('     (Creates storage bucket and handles file uploads)');
   console.log();
   console.log('Learn more:');
-  console.log('  📚 Documentation: https://docs.insforge.dev/introduction');
-  console.log('  💬 Discord: https://discord.com/invite/MPxwj5xVvW');
-  console.log('  ⭐ GitHub: https://github.com/insforge/insforge');
+  console.log('  📚 Documentation: https://docs.yarah.dev/introduction');
+  console.log('  💬 Discord: https://yarah.dev/community');
+  console.log('  ⭐ GitHub: https://github.com/yarah/yarah');
   console.log();
 }
 
@@ -91,7 +91,7 @@ function builder(y: yargs.Argv): yargs.Argv {
     array: true
   }).option("dev", {
     type: "boolean",
-    description: "Install dev version (@insforge/mcp@dev) instead of latest",
+    description: "Install dev version (@yarahdev/mcp@dev) instead of latest",
     default: false
   });
 }
@@ -102,7 +102,7 @@ async function handler(argv: InstallArgv): Promise<void> {
   if (!selectedClient) {
     console.log();
     console.log(LINE);
-    console.log(`  ${cyan('InsForge MCP Installer')}`);
+    console.log(`  ${cyan('Yarah MCP Installer')}`);
     console.log(LINE);
     console.log();
 
@@ -141,10 +141,10 @@ async function handler(argv: InstallArgv): Promise<void> {
   if (!envVars.API_BASE_URL) {
     envVars.API_BASE_URL = "http://localhost:7130";
   }
-  const name = "insforge";
-  const mcpVersion = argv.dev ? "@insforge/mcp@dev" : "@insforge/mcp@latest";
+  const name = "yarah";
+  const mcpVersion = argv.dev ? "@yarahdev/mcp@dev" : "@yarahdev/mcp@latest";
   try {
-    printHeader('InsForge MCP Installer');
+    printHeader('Yarah MCP Installer');
     logger.info(`Setting up MCP for ${cyan(argv.client)}...`);
 
     printHeader(`Configuring ${argv.client}`);
@@ -190,18 +190,18 @@ async function handler(argv: InstallArgv): Promise<void> {
       if (!settings.enabledMcpjsonServers) {
         settings.enabledMcpjsonServers = [];
       }
-      if (!(settings.enabledMcpjsonServers as string[]).includes("insforge")) {
-        (settings.enabledMcpjsonServers as string[]).push("insforge");
+      if (!(settings.enabledMcpjsonServers as string[]).includes("yarah")) {
+        (settings.enabledMcpjsonServers as string[]).push("yarah");
       }
 
       if (settings.disabledMcpjsonServers && Array.isArray(settings.disabledMcpjsonServers)) {
         settings.disabledMcpjsonServers = (settings.disabledMcpjsonServers as string[]).filter(
-          (server: string) => server !== "insforge"
+          (server: string) => server !== "yarah"
         );
       }
 
       fs.writeFileSync(settingsPath, JSON.stringify(settings, null, 2));
-      logger.info("Added \"insforge\" to enabledMcpjsonServers in .claude/settings.local.json");
+      logger.info("Added \"yarah\" to enabledMcpjsonServers in .claude/settings.local.json");
     } else if (argv.client === "codex") {
       const homeDir = os.homedir();
       const isWindows = process.platform === 'win32';
@@ -218,15 +218,15 @@ async function handler(argv: InstallArgv): Promise<void> {
         try {
           const removeCmd = isWindows ? `"${codexPath}" mcp remove ${name}` : `codex mcp remove ${name}`;
           execSync(removeCmd, { stdio: 'pipe' });
-          logger.info("Removed existing insforge MCP installation.");
+          logger.info("Removed existing yarah MCP installation.");
         } catch {
-          logger.info("No existing insforge MCP found");
+          logger.info("No existing yarah MCP found");
         }
 
         const command = isWindows
           ? `"${codexPath}" mcp add ${name} ${envArgs} -- npx -y ${mcpVersion}`
           : `codex mcp add ${name} ${envArgs} -- npx -y ${mcpVersion}`;
-        logger.info(`Adding insforge MCP server (${mcpVersion})...`);
+        logger.info(`Adding yarah MCP server (${mcpVersion})...`);
         execSync(command, { stdio: 'inherit' });
       } catch (error) {
         throw new Error(`Failed to add MCP server via Codex CLI: ${(error as Error).message}`);
@@ -242,13 +242,13 @@ async function handler(argv: InstallArgv): Promise<void> {
       try {
         try {
           execSync(`${kimiCmd} mcp remove ${name}`, { stdio: "pipe" });
-          logger.info("Removed existing insforge MCP installation.");
+          logger.info("Removed existing yarah MCP installation.");
         } catch {
-          logger.info("No existing insforge MCP found");
+          logger.info("No existing yarah MCP found");
         }
 
         const command = `${kimiCmd} mcp add --transport stdio ${envArgs} ${name} -- npx -y ${mcpVersion}`;
-        logger.info(`Adding insforge MCP server (${mcpVersion})...`);
+        logger.info(`Adding yarah MCP server (${mcpVersion})...`);
         execSync(command, { stdio: "inherit" });
       } catch (error) {
         throw new Error(`Failed to add MCP server via Kimi CLI: ${(error as Error).message}`);
@@ -399,7 +399,7 @@ alwaysApply: true
   }
 }
 
-const parser = yargs(hideBin(process.argv)).scriptName("@insforge/install").command("install", "Install Insforge MCP server", builder, handler).help().alias("h", "help").version().alias("v", "version");
+const parser = yargs(hideBin(process.argv)).scriptName("@yarahdev/install").command("install", "Install Yarah MCP server", builder, handler).help().alias("h", "help").version().alias("v", "version");
 if (!process.argv.slice(2).length || process.argv[2].startsWith("--")) {
   parser.parse(["install", ...process.argv.slice(2)]);
 } else {

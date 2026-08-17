@@ -1,14 +1,14 @@
 {
-  "name": "@insforge/install",
+  "name": "@yarahdev/install",
   "version": "0.0.53",
-  "description": "CLI tool for installing Insforge MCP servers across different AI clients",
+  "description": "CLI tool for installing Yarah MCP servers across different AI clients",
   "type": "module",
   "files": [
     "dist"
   ],
   "main": "dist/index.js",
   "bin": {
-    "insforge-install": "dist/index.js"
+    "yarah-install": "dist/index.js"
   },
   "scripts": {
     "build": "tsc && chmod +x dist/index.js",
@@ -23,11 +23,11 @@
     "yargs": "^17.7.2"
   },
   "keywords": [
-    "insforge",
+    "yarah",
     "mcp",
     "model-context-protocol"
   ],
-  "author": "Insforge",
+  "author": "Yarah",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
